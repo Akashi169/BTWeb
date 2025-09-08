@@ -69,4 +69,14 @@
     <servlet-name>LogoutController</servlet-name>
     <url-pattern>/LogoutController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CategoryController</display-name>
+    <servlet-name>CategoryController</servlet-name>
+    <servlet-class>com.example.controller.CategoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CategoryController</servlet-name>
+    <url-pattern>/CategoryController</url-pattern>
+  </servlet-mapping>
 </web-app>

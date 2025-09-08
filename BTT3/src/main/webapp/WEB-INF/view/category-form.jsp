@@ -51,17 +51,21 @@
 										alt="No Image" width="100">
 								</c:otherwise>
 							</c:choose></td>
-						<td><a
-							href="${pageContext.request.contextPath}/categories/${category.id}"
-							class="btn btn-info">View</a> <a
-							href="${pageContext.request.contextPath}/categories/edit/${category.id}"
-							class="btn btn-warning">Edit</a>
+						<td>
+							<button type="button" class="btn btn-warning"
+								data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+								data-id="${category.id}" data-name="${category.name}"
+								data-userid="${category.userId}"
+								data-imageurl="${category.imageUrl}">Edit</button>
 							<form
-								action="${pageContext.request.contextPath}/categories/${category.id}"
+								action="${pageContext.request.contextPath}/categories/delete"
 								method="post" style="display: inline;">
-								<input type="hidden" name="_method" value="delete" />
-								<button type="submit" class="btn btn-danger">Delete</button>
-							</form></td>
+								<input type="hidden" name="id" value="${category.id}" />
+								<button type="submit" class="btn btn-danger"
+									onclick="return confirm('Bạn có chắc muốn xóa không?');">
+									Delete</button>
+							</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -77,7 +81,7 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="${pageContext.request.contextPath}/category/add"
+					<form action="${pageContext.request.contextPath}/categories/add"
 						method="post">
 						<div class="mb-3">
 							<label class="form-label">Category Name</label> <input
@@ -97,10 +101,60 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="editCategoryModal" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Category</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="${pageContext.request.contextPath}/categories/update"
+						method="post">
+						<input type="hidden" name="id" id="editId" />
+						<div class="mb-3">
+							<label class="form-label">Category Name</label> <input
+								type="text" name="name" id="editName" class="form-control"
+								required />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">User ID</label> <input type="number"
+								name="userId" id="editUser" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Image URL</label> <input type="text"
+								name="imageUrl" id="editImage" class="form-control" />
+						</div>
+						<button type="submit" class="btn btn-success">Update</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		crossorigin="anonymous"></script>
+
+	<script>
+		const editModal = document.getElementById('editCategoryModal');
+		editModal.addEventListener('show.bs.modal', function(event) {
+			const button = event.relatedTarget;
+			const id = button.getAttribute('data-id');
+			const name = button.getAttribute('data-name');
+			const userId = button.getAttribute('data-userid');
+			const imageUrl = button.getAttribute('data-imageurl');
+
+			document.getElementById('editId').value = id;
+			document.getElementById('editName').value = name;
+			document.getElementById('editUser').value = userId;
+			document.getElementById('editImage').value = imageUrl;
+		});
+	</script>
 </body>
 
 </html>
